@@ -1,6 +1,9 @@
 from lexer import Lexer
 from parser_1 import Parser
 from interpreter import Interpreter
+from data import Data
+
+base = Data()
 
 while True:
     text = input("PseudoScript > ")
@@ -15,7 +18,7 @@ while True:
 
     print(tree)
 
-    # interpreter = Interpreter(tree=tree)
-    # result = interpreter.interpret()
+    interpreter = Interpreter(tree=tree, base=base)
+    result = interpreter.interpret()
 
-    # print(result)
+    print(result)
