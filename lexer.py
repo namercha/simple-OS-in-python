@@ -1,8 +1,13 @@
+from tokens import Operation, Integer, Float, Declaration, Variable
+
 class Lexer:
+    """Converts the user input into machine readable types and classes."""
 
     digits = "0123456789"
-    operations = "+-/*"
+    letters = "abcdefghijklmnopqrstuvwxyz"
+    operations = "+-/*()="
     stop_words = [" "]
+    declarations = ["make"]
 
     def __init__(self, text) -> None:
         self.text = text
@@ -24,6 +29,13 @@ class Lexer:
                 self.move()
                 continue
 
+            elif self.char in Lexer.letters:
+                word = self.extract_word()
+                if word in Lexer.declarations:
+                    self.token = Declaration(word)
+                else:
+                    self.token = Variable(word)
+
             self.tokens.append(self.token)
 
         return self.tokens
@@ -40,35 +52,16 @@ class Lexer:
 
         return Integer(number) if not isFloat else Float(number)
 
+    def extract_word(self):
+        word = ""
+        while (self.char in Lexer.letters and self.idx < len(self.text)):
+            word += self.char
+            self.move()
+
+        return word
+
+
     def move(self):
         self.idx += 1
         if self.idx < len(self.text):
             self.char = self.text[self.idx]
-
-
-class Token:
-    def __init__(self, type, value) -> None:
-        self.type = type
-        self.value = value
-
-    def __repr__(self) -> str:
-        return self.value
-
-
-class Integer(Token):
-    def __init__(self, value) -> None:
-        super().__init__("INT", value)
-
-
-class Float(Token):
-    def __init__(self, value) -> None:
-        super().__init__("FLT", value)
-
-
-class Operation(Token):
-    def __init__(self, value) -> None:
-        super().__init__("OP", value)
-
-
-class String(Token):
-    pass

@@ -7,7 +7,16 @@ See examples below:
 ### Examples
 
 ```
-
+PseudoScript > 1 + 3 * 7
+22
+PseudoScript > (1 + 2) * 3
+9
+PseudoScript > make a = 50
+[make, a, =, 50]
+[a, =, 50]
+PseudoScript > make a = 1 + 2 * 5
+[make, a, =, 1, +, 2, *, 5]
+[a, =, [1, +, [2, *, 5]]]
 ```
 
 ## lexer.py
